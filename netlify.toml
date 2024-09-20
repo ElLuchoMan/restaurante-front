@@ -1,11 +1,11 @@
+[build]
+  command = "npm install --legacy-peer-deps && npm run build"
+  publish = "dist/restaurante/browser"
+
+[build.environment]
+  NODE_VERSION = "20.15.1"
+
 [[redirects]]
   from = "/*"
   to = "/index.html"
   status = 200
-
-[build]
- command = "npm install --legacy-peer-deps && npm run build"
- publish = "dist/restaurante/browser"
-
-[build.environment]
-  NODE_VERSION = "16"
