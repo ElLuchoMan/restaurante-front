@@ -1,23 +1,32 @@
-import { ComponentFixture, TestBed } from '@angular/core/testing';
-
+import { render, screen } from '@testing-library/angular';
 import { HeaderComponent } from './header.component';
+import { NavLink } from '../../models/NavLink.model';
 
 describe('HeaderComponent', () => {
-  let component: HeaderComponent;
-  let fixture: ComponentFixture<HeaderComponent>;
+  const mockNavLinks: NavLink[] = [
+    { label: 'Inicio', path: '/' },
+    { label: 'Login', path: '/login' }
+  ];
 
-  beforeEach(async () => {
-    await TestBed.configureTestingModule({
-      imports: [HeaderComponent]
-    })
-    .compileComponents();
+  it('should render the header and nav links correctly', async () => {
+    await render(HeaderComponent, {
+      componentProperties: {
+        navLinks: mockNavLinks,
+      },
+    });
 
-    fixture = TestBed.createComponent(HeaderComponent);
-    component = fixture.componentInstance;
-    fixture.detectChanges();
-  });
+    // Verificar que el título esté presente
+    const title = screen.getByText('El Fogón de María');
+    expect(title).toBeTruthy();
 
-  it('should create', () => {
-    expect(component).toBeTruthy();
+    // Verificar que los enlaces de navegación se renderizan
+    const homeLink = screen.getByText('Inicio');
+    const loginLink = screen.getByText('Login');
+    expect(homeLink).toBeTruthy();
+    expect(loginLink).toBeTruthy();
+
+    // Verificar que los enlaces tengan el routerLink correcto
+    expect(homeLink.getAttribute('ng-reflect-router-link')).toEqual('/');
+    expect(loginLink.getAttribute('ng-reflect-router-link')).toEqual('/login');
   });
 });
